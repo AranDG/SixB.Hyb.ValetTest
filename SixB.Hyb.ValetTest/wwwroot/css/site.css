@@ -16,3 +16,11 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.alert-primary {
+    border-top: 3px solid #6ea8fe
+}
+
+.alert-danger {
+    border-top: 3px solid #b22222
+}
