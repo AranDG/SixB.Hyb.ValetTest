@@ -6,7 +6,6 @@
     <title>@ViewData["Title"] - SixB.Hyb.ValetTest</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/SixB.Hyb.ValetTest.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -22,11 +21,22 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        @if (User?.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                        @if (User?.Identity?.IsAuthenticated == false)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
+                            </li>
+                        }
                     </ul>
-                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
@@ -39,12 +49,33 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - SixB.Hyb.ValetTest - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2023 - SixB.Hyb.ValetTest
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    @if (TempData.ContainsKey("Alert") && TempData["Alert"] != null)
+    {
+        var alert = TempData.Get<SixB.Hyb.ValetTest.Core.Models.Alert>("Alert");
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+            <div id="alert-toast" class="toast border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header alert-@(alert.Type == SixB.Hyb.ValetTest.Core.Enums.AlertType.Success ? "primary" : "danger")">
+                    <strong class="me-auto">@alert.Type</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    @alert.Message
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            var toast = new bootstrap.Toast(document.getElementById('alert-toast'));
+            toast.show();
+        </script>
+    }
 </body>
 </html>
