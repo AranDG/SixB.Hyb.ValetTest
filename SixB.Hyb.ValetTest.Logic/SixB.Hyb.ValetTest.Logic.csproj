@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SixB.Hyb.ValetTest.Core\SixB.Hyb.ValetTest.Core.csproj" />
+  </ItemGroup>
+
 </Project>
