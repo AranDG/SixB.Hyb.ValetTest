@@ -1,21 +1,22 @@
-﻿@model SixB.Hyb.ValetTest.Core.Models.ViewModels.CreateBookingViewModel
+﻿@model SixB.Hyb.ValetTest.Core.Models.ViewModels.EditBookingViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Create</h1>
+<h1>Edit</h1>
 
 <h4>Booking</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Booking.BookingDate" class="control-label"></label>
-                <input asp-for="Booking.BookingDate" class="form-control" />
-                <span asp-validation-for="Booking.BookingDate" class="text-danger"></span>
+            <input type="hidden" asp-for="Booking.Id" />
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Booking.IsApproved" /> @Html.DisplayNameFor(model => model.Booking.IsApproved)
+                </label>
             </div>
             <div class="form-group">
                 <label asp-for="Booking.Name" class="control-label"></label>
@@ -33,6 +34,11 @@
                 <span asp-validation-for="Booking.EmailAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Booking.BookingDate" class="control-label"></label>
+                <input asp-for="Booking.BookingDate" class="form-control" />
+                <span asp-validation-for="Booking.BookingDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Booking.FlexibilityDayId" class="control-label"></label>
                 @Html.DropDownListFor(model => model.Booking.FlexibilityDayId, new SelectList(Model.FlexibilityDayOptions, "Id", "Name"), "Select a flexibility option", new { @class = "form-control" })
                 <span asp-validation-for="Booking.FlexibilityDayId" class="text-danger"></span>
@@ -43,10 +49,14 @@
                 <span asp-validation-for="Booking.VehicleSizeId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
